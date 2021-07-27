@@ -1,6 +1,6 @@
 <script>
 	import { select_options } from "svelte/internal";
-
+	import {Spinner, Options} from "./components"
 	const CORS_URL = "https://pacific-castle-70205.herokuapp.com";
 	const BASE_URL = "https://pinfruit.com/mnemonics";
 	let value = null; // value shown in the input field
@@ -55,6 +55,7 @@
 </script>
 
 <main>
+	
 	<h1>Mnemonic Major System!</h1>
 	<input {value} placeholder="Write a number..." type="number" on:input={handleInput} />
 	<div class="selection">
@@ -66,13 +67,14 @@
 		{/if}
 	</div>
 	{#if loading}
-		<h4>Loading...</h4>
+	<Spinner/>
 	{:else if valueSearched}
-	<div class="options">
+	<Options {options} {handleSelectOption}/>
+	<!-- <div class="options">
 		{#each options as option}
-		<span on:click={handleSelectOption(option)}>{option[0]}({option[1].toString().length})</span>
+		<span on:click={handleSelectOption(option)}>{option[0]}<sup>{option[1].toString().length}</sup></span>
 		{/each}
-	</div>
+	</div> -->
 	{:else if encoded}
 		<p>the number is fully encoded, use the blue arrow to backtrack
 		</p>
@@ -120,12 +122,6 @@
 		text-transform: uppercase;
 		font-size: 4em;
 		font-weight: 100;
-	}
-	h4 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 2em;
-		font-weight: 10;
 	}
 
 	@media (min-width: 640px) {
