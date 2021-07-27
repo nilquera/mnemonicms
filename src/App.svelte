@@ -26,10 +26,10 @@
 			});
 	}
 
-	const handleSelectOption = ([word, numbers, extra]) => {
+	const handleSelectOption = ({word, digitsUsed}) => {
 		if (!valueSearched) return
-		selected = [...selected, {word, numbers}];
-		const numOfDigits = numbers.toString().length
+		selected = [...selected, {word, digitsUsed}];
+		const numOfDigits = digitsUsed.toString().length
 		const trimmedString = valueSearched.toString().slice(numOfDigits)
 		const trimmedNumber = trimmedString === "" ? null : Number(trimmedString)
 
@@ -41,7 +41,7 @@
 	const handleRemoveSelection = () => {
 		const [selectionRemoved] = selected.slice(-1)
 		const valueSearchedBefore = valueSearched
-		let newValueSearched = selectionRemoved.numbers.toString()
+		let newValueSearched = selectionRemoved.digitsUsed.toString()
 
 		if (valueSearchedBefore !== null) newValueSearched += valueSearchedBefore.toString()
 
@@ -67,14 +67,9 @@
 		{/if}
 	</div>
 	{#if loading}
-	<Spinner/>
+		<Spinner/>
 	{:else if valueSearched}
-	<Options {options} {handleSelectOption}/>
-	<!-- <div class="options">
-		{#each options as option}
-		<span on:click={handleSelectOption(option)}>{option[0]}<sup>{option[1].toString().length}</sup></span>
-		{/each}
-	</div> -->
+		<Options {options} {handleSelectOption}/>
 	{:else if encoded}
 		<p>the number is fully encoded, use the blue arrow to backtrack
 		</p>
